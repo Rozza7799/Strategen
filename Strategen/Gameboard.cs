@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strategen {
     class DeployAction {
         public UnitType unitType;
         public bool team;
@@ -31,13 +30,13 @@ namespace Strategen {
         private float redHealth = 100;
         private float blueHealth = 100;
 
-        private Match match;
+        private Strategen.Match match;
 
         private List<List<Unit>> units = new List<List<Unit>>();
 
         private List<DeployAction> deployCache = new List<DeployAction>();
 
-        public Gameboard(Match match, StrategyBase redStrat, StrategyBase blueStrat) {
+        public Gameboard(Strategen.Match match, StrategyBase redStrat, StrategyBase blueStrat) {
             this.redStrat = new BoardInterface(redStrat, this, true);
             this.blueStrat = new BoardInterface(blueStrat, this, false);
             this.match = match;
@@ -59,15 +58,9 @@ namespace Strategen {
         }
 
         public bool DeployUnit(bool team, UnitType unitType, int x, int y) {
-            int newX = x;
-            int newY = y;
-            if (!team) {
-                newX = 15 - x;
-                newY = 15 - y;
-            }
             if ((team ? redCores : blueCores) >= 3) {
-                if (units[newX][newY].GetUnitType() == UnitType.EMPTY) {
-                    deployCache.Add(new DeployAction(unitType, team, newX, newY));
+                if (units[x][y].GetUnitType() == UnitType.EMPTY) {
+                    deployCache.Add(new DeployAction(unitType, team, x, y));
                     if (team) {
                         redCores = redCores - 3;
                     } else {
@@ -83,8 +76,10 @@ namespace Strategen {
             
         }
 
-        public UnitDetails GetUnitDetails(StrategyBase sender, int x, int y) {
-            return new UnitDetails(UnitType.EMPTY, 0);
+        public UnitDetails GetUnitDetails(bool team, int x, int y) {
+            UnitDetails unit = new UnitDetails(units[x][y].GetUnitType(), 0);
+            unit.team = unit.team == team;
+            return unit;
         }
 
         public float GetCores(bool team) {
@@ -95,8 +90,8 @@ namespace Strategen {
         public void Update() {
             turnNumber++;
             redCores++; blueCores++;
-            redStrat.RunUpdate(0);
-            blueStrat.RunUpdate(0);
+            redStrat.RunUpdate(turnNumber);
+            blueStrat.RunUpdate(turnNumber);
             for (int i = 0; i < deployCache.Count; i++) {
                 units[deployCache[i].x][deployCache[i].y].SetType(deployCache[i].unitType);
                 units[deployCache[i].x][deployCache[i].y].SetTeam(deployCache[i].team);
@@ -122,12 +117,29 @@ namespace Strategen {
         public void RunUpdate(int turnNumber) {
             strategy.Update(turnNumber);
         }
+
+        public UnitDetails GetUnitDetails(int x, int y) {
+            int newX = x;
+            int newY = y;
+            if (!team) {
+                newX = 15 - x;
+                newY = 15 - y;
+            }
+            return gameboard.GetUnitDetails(team, newX, newY);
+        }
+
         public float GetCores() {
             return gameboard.GetCores(team);
         }
 
         public bool DeployUnit(UnitType unitType, int x, int y) {
-            return gameboard.DeployUnit(team, unitType, x, y) ? true : false;
+            int newX = x;
+            int newY = y;
+            if (!team) {
+                newX = 15 - x;
+                newY = 15 - y;
+            }
+            return gameboard.DeployUnit(team, unitType, newX, newY) ? true : false;
         }
     }
-}
+

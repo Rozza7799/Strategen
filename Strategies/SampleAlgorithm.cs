@@ -17,6 +17,7 @@ using System.Threading.Tasks;
             gameboard.DeployUnit(UnitType.WALL, 12, 6);
             gameboard.DeployUnit(UnitType.WALL, 13, 5);
             gameboard.DeployUnit(UnitType.WALL, 14, 6);
-            gameboard.GetUnitDetails(1, 2);
+            
+
         }
     }

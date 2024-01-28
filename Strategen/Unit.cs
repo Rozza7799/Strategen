@@ -4,8 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Strategen
-{
     public enum UnitType {
         EMPTY,
         ATTACKER,
@@ -52,6 +50,7 @@ namespace Strategen
 
     public class UnitDetails {
         public UnitType type;
+        public bool team;
         public double health;
 
         public UnitDetails(UnitType type, double health){
@@ -62,4 +61,3 @@ namespace Strategen
         public UnitType GetUnitType() { return type; }
 
     }
-}

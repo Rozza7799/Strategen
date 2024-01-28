@@ -1,4 +1,5 @@
-﻿using Strategen.Strategies;
+﻿using Microsoft.Win32;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,10 +24,21 @@ namespace Strategen
         }
 
         private void NavToMatch(object sender, RoutedEventArgs e) {
-            
-            Match match = new Match(new SampleAlgorithm(), new SampleAlgorithm());
-            match.Show();
-            this.Close();
+
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.ShowDialog();
+
+            //if ( {
+
+                StrategyBase a = DynamicRuntimeCompiler.ExecuteCode(File.ReadAllText(ofd.FileName), "SampleAlgorithm");
+
+                Match match = new Match(a, new SampleAlgorithm());
+                match.Show();
+                this.Close();
+            /*} else {
+                throw new Exception("Bad");
+            }*/
         }
     }
 }
