@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 public class StrategyBase {
     public BoardInterface gameboard;
-    public string name = "Strategy Base";
+    public string name = "StrategyBase";
+    public string author = "Unknown";
 
     public void SetInterface(BoardInterface gameboard) {
         this.gameboard = gameboard;

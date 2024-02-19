@@ -42,7 +42,7 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1.25*"/>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
@@ -83,7 +83,7 @@
 
                     <StackPanel Grid.Column="2" Margin="10" HorizontalAlignment="Center">
                         <TextBlock Text="Turn" Foreground="White" FontSize="20" HorizontalAlignment="Center"/>
-                        <TextBlock x:Name="TxtTurnNumber" Text="00" Foreground="White" FontSize="40" HorizontalAlignment="Center"/>
+                        <TextBlock x:Name="TxtTurnNumber" Text="00" Foreground="White" FontSize="40" HorizontalAlignment="Center" Style="{StaticResource RubikDoodle}"/>
                     </StackPanel>
                 </Grid>
 
@@ -91,6 +91,40 @@
                     <Grid x:Name="GameCanvas" Width="512" Height="512"></Grid>
                 </Border>
             </Grid>
+            <StackPanel Grid.Row="1" Grid.Column="0" Margin="15">
+                <StackPanel.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FFFD5372" Offset="1"/>
+                        <GradientStop Color="#FFB31717" Offset="0.0"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+
+                <TextBlock Text="Red" Margin="10" FontSize="30" Style="{StaticResource RubikDoodle}" Foreground="White"/>
+                <TextBlock x:Name="RedStratName" Text="Red Strategy" Margin="10,0" FontSize="20" Foreground="White"/>
+                <TextBlock x:Name="RedStratAuthor" Text="Red Author" Margin="10,0" FontSize="16" Foreground="White"/>
+                <TextBlock Text="Logs" Margin="10,25,10,0" FontSize="20" Foreground="White"/>
+                <ScrollViewer Background="Black" Margin="10" Height="500">
+                    <StackPanel x:Name="redLogs" />
+                </ScrollViewer>
+            </StackPanel>
+            
+            <StackPanel Grid.Row="1" Grid.Column="2" Margin="15">
+                <StackPanel.Background>
+                    <LinearGradientBrush>
+                        <GradientStop Color="#FF33DEFF" Offset="1"/>
+                        <GradientStop Color="#FF1753B3" Offset="0.0"/>
+                    </LinearGradientBrush>
+                </StackPanel.Background>
+
+                <TextBlock TextAlignment="Right" Text="Blue" Margin="10" FontSize="30" Style="{StaticResource RubikDoodle}" Foreground="White"/>
+                <TextBlock x:Name="BlueStratName" TextAlignment="Right" Text="Blue Strategy" Margin="10,0" FontSize="20" Foreground="White"/>
+                <TextBlock x:Name="BlueStratAuthor" TextAlignment="Right" Text="Blue Author" Margin="10,0" FontSize="16" Foreground="White"/>
+                <TextBlock TextAlignment="Right" Text="Logs" Margin="10,25,10,0" FontSize="20" Foreground="White"/>
+                <ScrollViewer Background="Black" Margin="10" Height="500">
+                    <StackPanel x:Name="blueLogs" />
+                </ScrollViewer>
+
+            </StackPanel>
 
             <TextBlock Margin="0" Grid.Column="2" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Text="Rory Parker"></TextBlock>
         </Grid>

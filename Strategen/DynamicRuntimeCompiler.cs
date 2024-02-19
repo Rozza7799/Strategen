@@ -13,10 +13,8 @@ static class DynamicRuntimeCompiler {
 	public static StrategyBase ExecuteCode(string code, string className) {
 		SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
 
-		// Set up compilation options
 		var compilationOptions = new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary);
 
-		// Add references to standard assemblies
 		var references = new List<MetadataReference>
 		{
             MetadataReference.CreateFromFile(typeof(StrategyBase).Assembly.Location),
@@ -29,38 +27,32 @@ static class DynamicRuntimeCompiler {
             MetadataReference.CreateFromFile(typeof(System.Linq.Enumerable).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(System.Object).Assembly.Location),
             MetadataReference.CreateFromFile(typeof(System.Runtime.CompilerServices.RuntimeHelpers).Assembly.Location),
-            //MetadataReference.CreateFromFile(typeof().Assembly.Location),
-			// Add other necessary references
+
 			};
 
-		// Compile the code
 		var compilation = CSharpCompilation.Create("DynamicAsembly")
 			.WithOptions(compilationOptions)
 			.AddReferences(references)
 			.AddSyntaxTrees(syntaxTree);
 
 		using (var memoryStream = new MemoryStream()) {
-			// Emit the compiled assembly to memory
+
 			EmitResult result = compilation.Emit(memoryStream);
-			if (result.Success) {
-				// Load the assembly
+			if (result.Success) { 
 				Assembly assembly = Assembly.Load(memoryStream.ToArray());
 
-				// Get the dynamically compiled type
 				Type type = assembly.GetType(className);
 
 				if (type != null) {
-					// Create an instance of the dynamically compiled type
 					object instance = Activator.CreateInstance(type);
 
-					// Return the instance
-					return (StrategyBase)instance;
+					return (StrategyBase) instance;
 				} else {
 					throw new InvalidOperationException($"Class '{className}' not found in the dynamically compiled assembly.");
 				}
 			} else {
 				string err = "";
-				// Compilation failed, handle errors
+				// Compilation fail
 				IEnumerable <Diagnostic> errors = result.Diagnostics.Where(diagnostic =>
 				diagnostic.IsWarningAsError ||
 				diagnostic.Severity == DiagnosticSeverity.Error);

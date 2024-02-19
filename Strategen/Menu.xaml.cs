@@ -25,20 +25,10 @@ namespace Strategen
 
         private void NavToMatch(object sender, RoutedEventArgs e) {
 
-            OpenFileDialog ofd = new OpenFileDialog();
 
-            ofd.ShowDialog();
-
-            //if ( {
-
-                StrategyBase a = DynamicRuntimeCompiler.ExecuteCode(File.ReadAllText(ofd.FileName), "SampleAlgorithm");
-
-                Match match = new Match(a, new SampleAlgorithm());
-                match.Show();
-                this.Close();
-            /*} else {
-                throw new Exception("Bad");
-            }*/
+            StrategySelector s = new StrategySelector();
+            s.Show();
+            this.Close();
         }
     }
 }

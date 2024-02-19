@@ -22,8 +22,10 @@ namespace Strategen {
         List<List<Image>> images = new List<List<Image>>();
 
         BitmapImage emptyImage = new BitmapImage();
-        BitmapImage redCastleImage = new BitmapImage();
-        BitmapImage blueCastleImage = new BitmapImage();
+        BitmapImage redBarricadeImage = new BitmapImage();
+        BitmapImage blueBarricadeImage = new BitmapImage();
+        BitmapImage redKnightImage = new BitmapImage();
+        BitmapImage blueKnightImage = new BitmapImage();
 
         DispatcherTimer timer = new DispatcherTimer();
 
@@ -41,13 +43,22 @@ namespace Strategen {
             emptyImage.UriSource = new Uri("Images/Units/Empty.png", UriKind.Relative);
             emptyImage.EndInit();
 
-            redCastleImage.BeginInit();
-            redCastleImage.UriSource = new Uri("Images/Units/RedCastle.png", UriKind.Relative);
-            redCastleImage.EndInit();
+            redBarricadeImage.BeginInit();
+            redBarricadeImage.UriSource = new Uri("Images/Units/RedBarricade.png", UriKind.Relative);
+            redBarricadeImage.EndInit();
 
-            blueCastleImage.BeginInit();
-            blueCastleImage.UriSource = new Uri("Images/Units/BlueCastle.png", UriKind.Relative);
-            blueCastleImage.EndInit();
+            blueBarricadeImage.BeginInit();
+            blueBarricadeImage.UriSource = new Uri("Images/Units/BlueBarricade.png", UriKind.Relative);
+            blueBarricadeImage.EndInit();
+
+            redKnightImage.BeginInit();
+            redKnightImage.UriSource = new Uri("Images/Units/RedKnight.png", UriKind.Relative);
+            redKnightImage.EndInit();
+
+            blueKnightImage.BeginInit();
+            blueKnightImage.UriSource = new Uri("Images/Units/BlueKnight.png", UriKind.Relative);
+            blueKnightImage.EndInit();
+
             Create(red, blue);
             gameboard = new Gameboard(this, red, blue);
         }
@@ -78,16 +89,28 @@ namespace Strategen {
             for (int  x = 0;  x < 16;  x++) {
                 for (int y = 0; y < 16; y++) {
                     if (units[x][y].GetUnitType() == UnitType.EMPTY) {
-                        if (images[x][y].Source != emptyImage) {
+                        if (images[x][y].Source != emptyImage) { //this check is done to save computing time
                             images[x][y].Source = emptyImage;
                         }
-                    } else if (units[x][y].getTeam()) {
-                        if (units[x][y].GetUnitType() == UnitType.WALL) {
-                            images[x][y].Source = redCastleImage;
+                    } else if (units[x][y].GetUnitType() == UnitType.BARRICADE) {
+                        if (units[x][y].getTeam()) {
+                            if (images[x][y].Source != redBarricadeImage) {
+                                images[x][y].Source = redBarricadeImage;
+                            }
+                        } else {
+                            if (images[x][y].Source != blueBarricadeImage) {
+                                images[x][y].Source = blueBarricadeImage;
+                            }
                         }
-                    } else {
-                        if (units[x][y].GetUnitType() == UnitType.WALL) {
-                            images[x][y].Source = blueCastleImage;
+                    } else if (units[x][y].GetUnitType() == UnitType.KNIGHT) {
+                        if (units[x][y].getTeam()) {
+                            if (images[x][y].Source != redKnightImage) {
+                                images[x][y].Source = redKnightImage;
+                            }
+                        } else {
+                            if (images[x][y].Source != blueKnightImage) {
+                                images[x][y].Source = blueKnightImage;
+                            }
                         }
                     }
                 }
@@ -95,6 +118,11 @@ namespace Strategen {
         }
 
         public void Create(StrategyBase red, StrategyBase blue) {
+            RedStratName.Text = red.name;
+            RedStratAuthor.Text = red.author;
+            BlueStratName.Text = blue.name;
+            BlueStratAuthor.Text = blue.author;
+
             for (int i = 0; i < 16; i++) {
                 GameCanvas.RowDefinitions.Add(new RowDefinition());
                 GameCanvas.ColumnDefinitions.Add(new ColumnDefinition());

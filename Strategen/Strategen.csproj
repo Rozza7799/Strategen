@@ -10,9 +10,11 @@
 
   <ItemGroup>
     <None Remove="Fonts\RubikDoodleShadow-Regular.ttf" />
-    <None Remove="Images\Units\BlueCastle.png" />
+	  <None Remove="Images\Units\BlueBarricade.png" />
+	  <None Remove="Images\Units\RedBarricade.png" />
+	  <None Remove="Images\Units\BlueKnight.png" />
+	  <None Remove="Images\Units\RedKnight.png" />
     <None Remove="Images\Units\Empty.png" />
-    <None Remove="Images\Units\RedCastle.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,9 +24,11 @@
 
   <ItemGroup>
     <Resource Include="Fonts\RubikDoodleShadow-Regular.ttf" />
-    <Resource Include="Images\Units\BlueCastle.png" />
     <Resource Include="Images\Units\Empty.png" />
-    <Resource Include="Images\Units\RedCastle.png" />
+	<Resource Include="Images\Units\BlueBarricade.png" />
+	<Resource Include="Images\Units\RedBarricade.png" />
+	<Resource Include="Images\Units\BlueKnight.png" />
+	<Resource Include="Images\Units\RedKnight.png" />
   </ItemGroup>
 
 </Project>

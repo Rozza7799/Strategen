@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Strategen;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,17 +7,21 @@ using System.Threading.Tasks;
 
 class ReactiveStrategy : StrategyBase {
 
+    public override void OnStart() {
+        name = "Copycat";
+        author = "Tutorial";
+    }
+
     public override void Update(int turnNumber) {
-        gameboard.DeployUnit(UnitType.WALL, 5, 5);
-        gameboard.DeployUnit(UnitType.WALL, 6, 6);
-        gameboard.DeployUnit(UnitType.WALL, 7, 5);
-        gameboard.DeployUnit(UnitType.WALL, 8, 6);
-        gameboard.DeployUnit(UnitType.WALL, 9, 5);
-        gameboard.DeployUnit(UnitType.WALL, 10, 6);
-        gameboard.DeployUnit(UnitType.WALL, 11, 5);
-        gameboard.DeployUnit(UnitType.WALL, 12, 6);
-        gameboard.DeployUnit(UnitType.WALL, 13, 5);
-        gameboard.DeployUnit(UnitType.WALL, 14, 6);
-        gameboard.GetUnitDetails(1, 2);
+        if (gameboard.DeployUnit(UnitType.KNIGHT, 1, 7)) { gameboard.log("Placed Wall"); }
+        gameboard.DeployUnit(UnitType.BARRICADE, 2, 7);
+        for (int x = 0; x < 15; x++) {
+            for (int y = 8; y < 15; y++) {
+                if (gameboard.GetUnitDetails(x, y).GetUnitType() == UnitType.BARRICADE) {
+                    gameboard.DeployUnit(UnitType.BARRICADE, x, 7 - (y-8));
+                }
+            }
+        }
+        
     }
 }
