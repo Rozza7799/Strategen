@@ -13,7 +13,7 @@ public class StrategyBase {
         this.gameboard = gameboard;
     }
 
-    public virtual void OnStart() {/* Is called before the first game turn */}
+    public virtual void OnStart() {/* Is called before the first game turn, Only used for changing the name and author of the strategy */}
 
     public virtual void Update(int turnNumber) { }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 public enum UnitType {
     EMPTY,
@@ -22,11 +23,12 @@ public enum DamageType {
 }
 
 public class Unit {
-    protected int tick = 0;
+    protected int tick = 1;
     protected bool team;
     protected UnitType type;
     protected double health;
     protected double maxHealth;
+    protected bool hasMoved; // true if unit has attempted a move this turn
     public Unit() {
         type = UnitType.EMPTY;
         health = 0;
@@ -48,6 +50,9 @@ public class Unit {
 
     public void Update() {
         tick++;
+    }
+    public void ResetMove() {
+        hasMoved = false;
     }
 
     public void SetType(UnitType type) {
@@ -108,6 +113,13 @@ public class Barricade : Unit {
         type = UnitType.BARRICADE;
         this.team = team;
         health = 100;
+        maxHealth = health;
+    }
+    public override void Damage(double damage, DamageType damageType) {
+        health -= damageType == DamageType.MAGIC ? damage / 2 : damage;
+        if (health > maxHealth) {
+            health = maxHealth;
+        }
     }
 }
 public class Knight : Unit {
@@ -115,7 +127,7 @@ public class Knight : Unit {
         this.team = team;
         type = UnitType.KNIGHT;
         health = 100;
-        maxHealth = 100;
+        maxHealth = health;
     }
     public override void Damage(double damage, DamageType damageType) {
         health -= damageType == DamageType.MAGIC ? damage * 2 : damage;
@@ -125,13 +137,16 @@ public class Knight : Unit {
     }
     public override List<TileDamage> GetDamages() {
         List<TileDamage> damages = new List<TileDamage>() { //The damage to inflict
-            new TileDamage(0, team ? 1 : -1, 15, DamageType.PHYSICAL, team) 
+            new TileDamage(0, team ? 1 : -1, 15, DamageType.PHYSICAL, team)
         };
-
-
         return damages;
     }
     public override bool IsMoving() {
-        return tick % 3 == 0;
+        if (tick % 3 == 2 && !hasMoved) {
+            hasMoved = true;
+            return true;
+        } else {
+            return false;
+        }
     }
 }

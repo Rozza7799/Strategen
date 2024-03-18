@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -62,11 +63,11 @@ public class Gameboard {
     public bool DeployUnit(bool team, UnitType unitType, int x, int y) {
         if ((team ? redCores : blueCores) >= 3) {
             if (units[x][y].GetUnitType() == UnitType.EMPTY) {
-                deployCache.Add(new DeployAction(unitType, team, x, y));
+                deployCache.Add(new DeployAction(unitType, team, x, y)); // This is fine because neither team can place ontop of eachother
                 if (team) {
-                    redCores = redCores - 3;
+                    redCores -= 3;
                 } else {
-                    blueCores = blueCores - 3;
+                    blueCores -= 3;
                 }
                 return true;
             } else {
@@ -90,10 +91,14 @@ public class Gameboard {
 
 
     public void Update() {
+        //Update turn info
         turnNumber++;
-        redCores++; blueCores++;
+        redCores += 1; 
+        blueCores += 1;
+        //Let the strategies decide their actions
         redStrat.RunUpdate(turnNumber);
         blueStrat.RunUpdate(turnNumber);
+
         foreach (DeployAction d in deployCache) {
             if (d.unitType == UnitType.BARRICADE) {
                 units[d.x][d.y] = new Barricade(d.team);
@@ -101,36 +106,47 @@ public class Gameboard {
                 units[d.x][d.y] = new Knight(d.team);
             }
         }
-        //match.Render(units, turnNumber);
+        deployCache.Clear();
         
+        //Update tick
+        for (int x = 0; x < 16; x++) {
+            for (int y = 0; y < 16; y++) {
+                units[x][y].Update();
+            }
+        }
         //Damage Update
-        List<TileDamage> damages = new List<TileDamage>(); //Get a list of all the damage events from all units
+        //Get a list of all the damage events from all units
+        List<TileDamage> damages = new List<TileDamage>(); 
         for (int x = 0; x < 15; x++) {
             for (int y = 0; y < 15; y++) {
                 foreach (TileDamage damage in units[x][y].GetDamages()) {
-                    if (damage.x + x >= 0 && damage.x + x <= 15 && damage.y + y >= 0 && damage.y + y <= 15)
-                    damages.Add(new TileDamage(damage.x + x, damage.y + y, damage.damage, damage.damageType, damage.team));
+                    if (damage.x + x >= 0 && damage.x + x <= 15 && damage.y + y >= 0 && damage.y + y <= 15) {
+                        damages.Add(new TileDamage(damage.x + x, damage.y + y, damage.damage, damage.damageType, damage.team));
+                    }
                 }
             }
-        } 
-        foreach (TileDamage damage in damages) { //Apply the damage
-            if (damage.team != units[damage.x][damage.y].getTeam()) {
+        }
+        //Apply the damage
+        foreach (TileDamage damage in damages) { 
+            if (units[damage.x][damage.y].GetUnitType() != UnitType.EMPTY && damage.team != units[damage.x][damage.y].getTeam()) {
                 units[damage.x][damage.y].Damage(damage.damage, damage.damageType);
             }
         }
-        for (int x = 0; x < 15; x++) {
-            for (int y = 0; y < 15; y++) {
+        //Check if unit has died
+        for (int x = 0; x < 16; x++) {
+            for (int y = 0; y < 16; y++) {
                 if (units[x][y].GetUnitType() != UnitType.EMPTY && units[x][y].GetHealth() <= 0) {
                     units[x][y] = new Unit();
                 }
             }
         }
 
-        for (int x = 0; x < 15; x++) {
-            for (int y = 0; y < 15; y++) {
+        //Movement
+        for (int x = 0; x < 16; x++) {
+            for (int y = 0; y < 16; y++) {
                 if (units[x][y].GetUnitType() != UnitType.EMPTY && units[x][y].IsMoving()) {
                     if (units[x][y].getTeam()) {
-                        if (y+1 > 15) {
+                        if (y + 1 > 15) {
                             blueHealth--;
                             units[x][y] = new Unit();
                         } else if (units[x][y+1].GetUnitType() == UnitType.EMPTY) {
@@ -149,8 +165,12 @@ public class Gameboard {
                 }
             }
         }
+        for (int x = 0; x < 16; x++) {
+            for (int y = 0; y < 16; y++) {
+                units[x][y].ResetMove();
+            }
+        }
         match.Render(units, turnNumber);
-        //match.Render(units, turnNumber);
     }
 
     public void log(string message, bool team) {

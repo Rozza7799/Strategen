@@ -89,7 +89,7 @@ namespace Strategen {
             for (int  x = 0;  x < 16;  x++) {
                 for (int y = 0; y < 16; y++) {
                     if (units[x][y].GetUnitType() == UnitType.EMPTY) {
-                        if (images[x][y].Source != emptyImage) { //this check is done to save computing time
+                        if (images[x][y].Source != emptyImage) { //this check is done to save computing time as replacing an image takes more time than a comparison
                             images[x][y].Source = emptyImage;
                         }
                     } else if (units[x][y].GetUnitType() == UnitType.BARRICADE) {

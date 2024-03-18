@@ -14,6 +14,9 @@ class SampleAlgorithm : StrategyBase {
     public override void Update(int turnNumber) {
         if (gameboard.DeployUnit(UnitType.BARRICADE, 14, 7 )) { gameboard.log("Replaced Wall"); }
         
+        for (int i = 0 ;i < 5; i++) {
+            gameboard.log(i.ToString());
+        }
         gameboard.DeployUnit(UnitType.BARRICADE, 5, 5);
         gameboard.DeployUnit(UnitType.BARRICADE, 6, 6);
         gameboard.DeployUnit(UnitType.BARRICADE, 7, 5);
