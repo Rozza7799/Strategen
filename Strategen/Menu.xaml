@@ -105,7 +105,7 @@
 
                     </Button>
                     <Button Height="50" Width="300"
-                        BorderThickness="2" Margin="10">
+                        BorderThickness="2" Margin="10" Click="NavToTournament">
                         <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
                                 <GradientStop Color="#5BC3FF" Offset="0.0"/>

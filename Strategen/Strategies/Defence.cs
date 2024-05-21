@@ -12,21 +12,12 @@ class Defence : StrategyBase {
     }
 
     public override void Update(int turnNumber) {
-        
-        if (turnNumber == 4) { 
-            gameboard.DeployUnit(UnitType.BARRICADE, 10, 5);
+
+        gameboard.DeployUnit(UnitType.BARRICADE, 0, 0);
+        gameboard.DeployUnit(UnitType.BARRICADE, 1, 1);
+        gameboard.DeployUnit(UnitType.BARRICADE, 2, 2);
+        if (turnNumber == 60) { 
+            gameboard.DeployUnit(UnitType.DRAGON, 10, 5);
         }
-        /*
-        gameboard.DeployUnit(UnitType.KNIGHT, 6, 6);
-        gameboard.DeployUnit(UnitType.KNIGHT, 7, 5);
-        gameboard.DeployUnit(UnitType.KNIGHT, 8, 6);
-        gameboard.DeployUnit(UnitType.KNIGHT, 9, 5);
-        gameboard.DeployUnit(UnitType.KNIGHT, 10, 6);
-        gameboard.DeployUnit(UnitType.KNIGHT, 11, 5);
-        gameboard.DeployUnit(UnitType.KNIGHT, 12, 6);
-        gameboard.DeployUnit(UnitType.KNIGHT, 13, 5);
-        gameboard.DeployUnit(UnitType.KNIGHT, 14, 6);*/
-        
-        
     }
 }

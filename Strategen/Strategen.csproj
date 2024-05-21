@@ -14,6 +14,12 @@
 	  <None Remove="Images\Units\RedBarricade.png" />
 	  <None Remove="Images\Units\BlueKnight.png" />
 	  <None Remove="Images\Units\RedKnight.png" />
+	  <None Remove="Images\Units\BlueDragon.png" />
+	  <None Remove="Images\Units\RedDragon.png" />
+	  <None Remove="Images\Units\BlueBallista.png" />
+	  <None Remove="Images\Units\RedBallista.png" />
+	  <None Remove="Images\Units\BlueWizard.png" />
+	  <None Remove="Images\Units\RedWizard.png" />
     <None Remove="Images\Units\Empty.png" />
   </ItemGroup>
 
@@ -29,6 +35,12 @@
 	<Resource Include="Images\Units\RedBarricade.png" />
 	<Resource Include="Images\Units\BlueKnight.png" />
 	<Resource Include="Images\Units\RedKnight.png" />
+	<Resource Include="Images\Units\BlueDragon.png" />
+	<Resource Include="Images\Units\RedDragon.png" />
+	<Resource Include="Images\Units\BlueBallista.png" />
+	<Resource Include="Images\Units\RedBallista.png" />
+	<Resource Include="Images\Units\BlueWizard.png" />
+	<Resource Include="Images\Units\RedWizard.png" />
   </ItemGroup>
 
 </Project>

@@ -24,9 +24,13 @@ namespace Strategen
         }
 
         private void NavToMatch(object sender, RoutedEventArgs e) {
-
-
             StrategySelector s = new StrategySelector();
+            s.Show();
+            this.Close();
+        }
+
+        private void NavToTournament(object sender, RoutedEventArgs e) {
+            TournamentManager s = new TournamentManager();
             s.Show();
             this.Close();
         }

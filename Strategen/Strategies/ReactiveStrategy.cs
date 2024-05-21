@@ -13,8 +13,6 @@ class ReactiveStrategy : StrategyBase {
     }
 
     public override void Update(int turnNumber) {
-        if (gameboard.DeployUnit(UnitType.KNIGHT, 1, 7)) { gameboard.log("Placed Wall"); }
-        gameboard.DeployUnit(UnitType.BARRICADE, 2, 7);
         for (int x = 0; x < 15; x++) {
             for (int y = 8; y < 15; y++) {
                 if (gameboard.GetUnitDetails(x, y).GetUnitType() == UnitType.BARRICADE) {

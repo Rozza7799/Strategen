@@ -87,11 +87,11 @@
                     </StackPanel>
                 </Grid>
 
-                <Border Grid.Column="1" Grid.Row="1" Background="Black"  Width="528" Height="528">
+                <Border Panel.ZIndex="1" Grid.Column="1" Grid.Row="1" Background="Black"  Width="528" Height="528">
                     <Grid x:Name="GameCanvas" Width="512" Height="512"></Grid>
                 </Border>
-                <Border Panel.ZIndex="1" Grid.Column="1" Grid.Row="1" Background="Black"  Width="528" Height="528">
-                    <Grid x:Name="OtherCanvas" Width="512" Height="512"></Grid>
+                <Border Grid.Column="1" Grid.Row="1" Background="Black"  Width="528" Height="528">
+                    <Grid x:Name="DamageCanvas" Width="512" Height="512"></Grid>
                 </Border>
             </Grid>
             <StackPanel Grid.Row="1" Grid.Column="0" Margin="15">

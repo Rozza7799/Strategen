@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,36 +16,59 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Path = System.IO.Path;
 
 namespace Strategen {
     /// <summary>
     /// Interaction logic for StrategySelector.xaml
     /// </summary>
+    /// 
     public partial class StrategySelector {
         public Grid baseFileIcon;
 
         public StrategyBase redStrategy, blueStrategy;
         public bool redStrategyOpen = true, blueStrategyOpen = true;
-
+        private Match m;
 
         public StrategySelector() {
             InitializeComponent();
             baseFileIcon = StrategyFileIcon;
             baseFileIcon.Visibility = Visibility.Hidden;
+
+            //Loads saved strategies from the savedstrategies file
+            string[] savedStrategies = File.ReadAllLines(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"SavedStrategies.txt"));
+            foreach (string strategy in savedStrategies) {
+                string[] splitStrat = strategy.Split(',');
+                if (splitStrat.Length == 2) {
+                    string fileContents = File.ReadAllText(splitStrat[0]);
+                    try {
+                        new StrategyFile(this, fileContents, splitStrat[1]);
+                    } catch {
+                        MessageBox.Show(splitStrat[1] + " failed to load. \nEnsure that the code loads properly in editor or try troubleshooting fixes.");
+                    }
+                }
+            }
         }
 
         public void AddStrategyFile(Grid file) {
             file.Background = baseFileIcon.Background;
             FileScrollPanel.Children.Add(file);
         }
-
+        
         public void PlayMatch(object sender, RoutedEventArgs e) {
             if (!redStrategyOpen && !blueStrategyOpen) {
-                Match m = new Match(redStrategy, blueStrategy);
+                m = new Match(redStrategy, blueStrategy, btnWithGUI.IsChecked.Value, new StrategySelecterStarter(this));
                 m.Show();
-                this.Close();
+                this.Hide();
+                //while (!m.getFinished()) ;
+                
             }
         }
+        public void matchIsDone(bool winner) {
+            this.Show();
+            m.Close();
+        }
+
 
         private void ImportBtn_Click(object sender, RoutedEventArgs e) {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -78,6 +102,7 @@ namespace Strategen {
 
             try {
                 new StrategyFile(this, fileContents, className);
+                File.AppendAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"SavedStrategies.txt"), (ofd.FileName + "," + className + "\n"));
             } catch {
                 MessageBox.Show("Strategy failed to load. \nEnsure that the code loads properly in editor or try troubleshooting fixes.");
             }
@@ -101,15 +126,27 @@ namespace Strategen {
         }
         public void RemoveRedStrategy(object sender, RoutedEventArgs e) {
             PlayMatchBtn.Opacity = 0.5;
-            blueStrategyTextBlock.Text = "Empty";
+            redStrategyTextBlock.Text = "Empty";
             redStrategyOpen = true;
         }
         public void RemoveBlueStrategy(object sender, RoutedEventArgs e) {
             PlayMatchBtn.Opacity = 0.5;
-            redStrategyTextBlock.Text = "Empty";
+            blueStrategyTextBlock.Text = "Empty";
             blueStrategyOpen = true;
         }
     }
+
+    public class StrategySelecterStarter : MatchStarter {
+        StrategySelector s;
+        public StrategySelecterStarter(StrategySelector s) {
+            this.s = s;
+        }
+
+        public override void matchIsDone(bool winner) {
+            s.matchIsDone(winner);
+        }
+    }
+
     public class StrategyFile {
         Grid fileview;
         private StrategyBase strategy;
@@ -117,6 +154,7 @@ namespace Strategen {
         public string name = "Unknown";
         public string status = "Unloaded";
         public string author = "Unknown";
+        public string className = "Unknown";
         public TextBlock nameTextBlock;
         public TextBlock authorTextBlock;
         public Button removeButton;
@@ -129,6 +167,7 @@ namespace Strategen {
             fileview.MouseDown += AttemptSelect;
             name = strategy.name;
             status = "Loaded";
+            this.className = className;
             author = strategy.author;
             fileview.RowDefinitions.Add(new RowDefinition());
             fileview.RowDefinitions.Add(new RowDefinition());
@@ -154,11 +193,31 @@ namespace Strategen {
         }
 
         private void DeleteStrategy(object sender, RoutedEventArgs e) {
+            try {
+                List<string> newFile = new List<string>();
+                string[] savedStrategies = File.ReadAllLines(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"SavedStrategies.txt"));
+                foreach (string strategy in savedStrategies) {
+                    string[] splitStrat = strategy.Split(',');
+                    if (splitStrat.Length == 2) {
+                        if (splitStrat[1] == className) {
+                            MessageBox.Show(className + " was removed from saved files!");
+                        } else {
+                            newFile.Add(splitStrat[0] + "," + splitStrat[1]);
+                        }
+                    }
+                }
+
+                File.WriteAllLines(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"SavedStrategies.txt"), newFile);
+            } catch {
+                MessageBox.Show("Couldn't remove from saved files, likely because SavedStrategies.txt was unreachable");
+            }
+
+
             strategySelector.FileScrollPanel.Children.Remove(fileview);
         }
         private void AttemptSelect(object sender, RoutedEventArgs e) {
             if (strategySelector.SelectStrategy(strategy)) {
-
+                
             }
         }
     }

@@ -13,10 +13,11 @@ class SampleAlgorithm : StrategyBase {
 
     public override void Update(int turnNumber) {
         if (gameboard.DeployUnit(UnitType.BARRICADE, 14, 7 )) { gameboard.log("Replaced Wall"); }
-        
-        for (int i = 0 ;i < 5; i++) {
-            gameboard.log(i.ToString());
-        }
+    
+        if (turnNumber == 30) { gameboard.DeployUnit(UnitType.ARCHER, 5, 5); }
+
+        if (turnNumber == 60) { gameboard.DeployUnit(UnitType.CATAPULT, 6, 5); }
+        /*
         gameboard.DeployUnit(UnitType.BARRICADE, 5, 5);
         gameboard.DeployUnit(UnitType.BARRICADE, 6, 6);
         gameboard.DeployUnit(UnitType.BARRICADE, 7, 5);
@@ -27,9 +28,7 @@ class SampleAlgorithm : StrategyBase {
         gameboard.DeployUnit(UnitType.BARRICADE, 12, 6);
         gameboard.DeployUnit(UnitType.BARRICADE, 13, 5);
         gameboard.DeployUnit(UnitType.BARRICADE, 14, 6);
-        /*if (gameboard.GetUnitDetails(1, 2).GetUnitType() == UnitType.ATTACKER) {
-            gameboard.DeployUnit(UnitType.BARRICADE, 1, 2);
-        }*/
+        */
         
     }
 }

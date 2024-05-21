@@ -12,6 +12,7 @@ public class StrategyBase {
     public void SetInterface(BoardInterface gameboard) {
         this.gameboard = gameboard;
     }
+    
 
     public virtual void OnStart() {/* Is called before the first game turn, Only used for changing the name and author of the strategy */}
 

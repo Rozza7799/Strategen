@@ -123,25 +123,28 @@
 
                     </Border>
 
-                    <Border Height="80" Margin="10" BorderThickness="2">
-                        <Border.Background>
+                    <Button Height="80" Margin="10" BorderThickness="2" Click="RemoveRedStrategy">
+                        <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
                                 <GradientStop Color="#FF3358" Offset="0.0"/>
                                 <GradientStop Color="#FFB31717" Offset="1"/>
                             </LinearGradientBrush>
-                        </Border.Background>
+                        </Button.Background>
                         <TextBlock x:Name="redStrategyTextBlock"  Text="Red Strategy" VerticalAlignment="Center" FontSize="25" TextAlignment="Center"/>
-                    </Border>
+                    </Button>
                     <TextBlock Text="VS" FontSize="50" TextAlignment="Center" Foreground="White"/>
-                    <Border Height="80" Margin="10" BorderThickness="2">
-                        <Border.Background>
+                    <Button Height="80" Margin="10" BorderThickness="2" Click="RemoveBlueStrategy">
+                        <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
                                 <GradientStop Color="#FF33DEFF" Offset="0.0"/>
                                 <GradientStop Color="#FF1753B3" Offset="1"/>
                             </LinearGradientBrush>
-                        </Border.Background>
+                        </Button.Background>
                         <TextBlock x:Name="blueStrategyTextBlock"  Text="Blue Strategy" VerticalAlignment="Center" FontSize="25" TextAlignment="Center"/>
-                    </Border>
+                    </Button>
+
+                    <TextBlock Text="GUI Enabled" Foreground="White" Margin="15"> <CheckBox x:Name="btnWithGUI" IsChecked="True"/></TextBlock>
+
                     <Button x:Name="PlayMatchBtn" Click="PlayMatch"  Height="50" Width="300" Opacity="0.5"
                         BorderThickness="2" Margin="10" >
                         <Button.Background>

@@ -61,13 +61,20 @@ public class Gameboard {
     }
 
     public bool DeployUnit(bool team, UnitType unitType, int x, int y) {
-        if ((team ? redCores : blueCores) >= 3) {
+        int cost = 0;
+        if (unitType == UnitType.BARRICADE) { cost = 2; }
+        if (unitType == UnitType.KNIGHT) { cost = 3; }
+        if (unitType == UnitType.ARCHER) { cost = 4; }
+        if (unitType == UnitType.CATAPULT) { cost = 10; }
+        if (unitType == UnitType.DRAGON) { cost = 25; }
+
+        if ((team ? redCores : blueCores) >= cost) {
             if (units[x][y].GetUnitType() == UnitType.EMPTY) {
                 deployCache.Add(new DeployAction(unitType, team, x, y)); // This is fine because neither team can place ontop of eachother
                 if (team) {
-                    redCores -= 3;
+                    redCores -= cost;
                 } else {
-                    blueCores -= 3;
+                    blueCores -= cost;
                 }
                 return true;
             } else {
@@ -92,6 +99,7 @@ public class Gameboard {
 
     public void Update() {
         //Update turn info
+        deployCache.Clear();
         turnNumber++;
         redCores += 1; 
         blueCores += 1;
@@ -104,9 +112,14 @@ public class Gameboard {
                 units[d.x][d.y] = new Barricade(d.team);
             } else if (d.unitType == UnitType.KNIGHT) {
                 units[d.x][d.y] = new Knight(d.team);
+            } else if (d.unitType == UnitType.DRAGON) {
+                units[d.x][d.y] = new Dragon(d.team);
+            } else if (d.unitType == UnitType.ARCHER) {
+                units[d.x][d.y] = new Archer(d.team);
+            } else if (d.unitType == UnitType.CATAPULT) {
+                units[d.x][d.y] = new Catapult(d.team);
             }
         }
-        deployCache.Clear();
         
         //Update tick
         for (int x = 0; x < 16; x++) {
@@ -114,24 +127,27 @@ public class Gameboard {
                 units[x][y].Update();
             }
         }
+
         //Damage Update
         //Get a list of all the damage events from all units
         List<TileDamage> damages = new List<TileDamage>(); 
         for (int x = 0; x < 15; x++) {
             for (int y = 0; y < 15; y++) {
-                foreach (TileDamage damage in units[x][y].GetDamages()) {
-                    if (damage.x + x >= 0 && damage.x + x <= 15 && damage.y + y >= 0 && damage.y + y <= 15) {
-                        damages.Add(new TileDamage(damage.x + x, damage.y + y, damage.damage, damage.damageType, damage.team));
-                    }
+                foreach (TileDamage damage in units[x][y].GetDamages()) {                    
+                    damages.Add(new TileDamage(damage.x + x, damage.y + y, damage.damageType, damage.damage, damage.team));
                 }
             }
         }
+
         //Apply the damage
-        foreach (TileDamage damage in damages) { 
-            if (units[damage.x][damage.y].GetUnitType() != UnitType.EMPTY && damage.team != units[damage.x][damage.y].getTeam()) {
-                units[damage.x][damage.y].Damage(damage.damage, damage.damageType);
+        foreach (TileDamage damage in damages) {
+            if (damage.x >= 0 && damage.x <= 15 && damage.y >= 0 && damage.y <= 15) {
+                if (units[damage.x][damage.y].GetUnitType() != UnitType.EMPTY && damage.team == !units[damage.x][damage.y].getTeam()) {
+                    units[damage.x][damage.y].Damage(damage.damage, damage.damageType);
+                }
             }
         }
+
         //Check if unit has died
         for (int x = 0; x < 16; x++) {
             for (int y = 0; y < 16; y++) {
@@ -170,14 +186,14 @@ public class Gameboard {
                 units[x][y].ResetMove();
             }
         }
-        match.Render(units, turnNumber);
+        match.Render(units, damages, turnNumber);
     }
 
     public void log(string message, bool team) {
         if (team) {
-            match.redLogs.Children.Add(new TextBlock() { FontSize = 12, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), Text = message });
+            match.redLogs.Children.Add(new TextBlock() { FontSize = 12, Foreground = new SolidColorBrush(Color.FromRgb(255, 200, 200)), Text = message });
         } else {
-            match.blueLogs.Children.Add(new TextBlock() { FontSize = 12, Foreground = new SolidColorBrush(Color.FromRgb(255, 255, 255)), Text = message });
+            match.blueLogs.Children.Add(new TextBlock() { FontSize = 12, Foreground = new SolidColorBrush(Color.FromRgb(200, 200, 255)), Text = message });
         }
     }
 }
