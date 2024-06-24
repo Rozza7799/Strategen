@@ -111,12 +111,12 @@ namespace Strategen {
 
         public bool SelectStrategy(StrategyBase strategy) { //Whenever a strategy is selected from the list
             if (redStrategyOpen) {
-                redStrategy = strategy;
+                redStrategy = (StrategyBase)Activator.CreateInstance(strategy.GetType()); //This is fine because it is already cast in the dynamic runtime compiler
                 redStrategyTextBlock.Text = strategy.name;
                 redStrategyOpen = false;
                 return true;
             } else if (blueStrategyOpen) {
-                blueStrategy = strategy;
+                blueStrategy = (StrategyBase)Activator.CreateInstance(strategy.GetType());
                 blueStrategyOpen = false;
                 blueStrategyTextBlock.Text = strategy.name;
                 PlayMatchBtn.Opacity = 1;

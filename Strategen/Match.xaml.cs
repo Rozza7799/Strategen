@@ -57,8 +57,10 @@ namespace Strategen {
             this.stratStarter = stratStarter;
 
             //Re-instancing it allows for two duplicate strategies to play against eachother
-            redStrategy = (StrategyBase) Activator.CreateInstance(red.GetType()); //This is fine because the strategy is already cast in the dynamic runtime compiler
-            blueStrategy = (StrategyBase) Activator.CreateInstance(blue.GetType());
+            redStrategy = red;//(StrategyBase) Activator.CreateInstance(red.GetType()); //This is fine because the strategy is already cast in the dynamic runtime compiler
+            blueStrategy = blue;//(StrategyBase) Activator.CreateInstance(blue.GetType());
+            redStrategy.OnStart();
+            blueStrategy.OnStart();
 
             if (withGUI) { //If the user has slected to run the match with GUI using the checkbox
                 timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
