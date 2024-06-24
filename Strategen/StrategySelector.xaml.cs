@@ -74,41 +74,42 @@ namespace Strategen {
             OpenFileDialog ofd = new OpenFileDialog();
 
             ofd.ShowDialog();
-
-            string fileContents = File.ReadAllText(ofd.FileName);
-
-            int classNameIndex = 0; //Finds Starting index for the name of the class
-            for (int i = 0; i < fileContents.Length - 6 && classNameIndex == 0; i++) {
-                if (fileContents.Substring(i, 6) == "class ") {
-                    classNameIndex = i + 6;
-                }
-
-            }
-
-            string className = "";
-            bool encounteredStart = false;
-            bool encounteredEnd = false;
-            int counter = 0;
-            while (!encounteredEnd) {
-                if (fileContents[classNameIndex + counter].ToString() != " ") { //Gets the class name
-                    encounteredStart = true;
-                    className += fileContents[classNameIndex + counter].ToString();
-                    counter++;
-                } else {
-                    if (encounteredStart) { encounteredEnd = true; }
-                }
-
-            }
-
             try {
-                new StrategyFile(this, fileContents, className);
-                File.AppendAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"SavedStrategies.txt"), (ofd.FileName + "," + className + "\n"));
+                string fileContents = File.ReadAllText(ofd.FileName);
+                int classNameIndex = 0; //Finds Starting index for the name of the class
+                for (int i = 0; i < fileContents.Length - 6 && classNameIndex == 0; i++) {
+                    if (fileContents.Substring(i, 6) == "class ") {
+                        classNameIndex = i + 6;
+                    }
+
+                }
+
+                string className = "";
+                bool encounteredStart = false;
+                bool encounteredEnd = false;
+                int counter = 0;
+                while (!encounteredEnd) {
+                    if (fileContents[classNameIndex + counter].ToString() != " ") { //Gets the class name
+                        encounteredStart = true;
+                        className += fileContents[classNameIndex + counter].ToString();
+                        counter++;
+                    } else {
+                        if (encounteredStart) { encounteredEnd = true; }
+                    }
+
+                }
+
+                try { //Tries to make an instance of the strategy 
+                    new StrategyFile(this, fileContents, className);
+                    File.AppendAllText(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"SavedStrategies.txt"), (ofd.FileName + "," + className + "\n"));
+                } catch {
+                    MessageBox.Show("Strategy failed to load. \nEnsure that the code loads properly in editor or try troubleshooting fixes.");
+                }
             } catch {
-                MessageBox.Show("Strategy failed to load. \nEnsure that the code loads properly in editor or try troubleshooting fixes.");
             }
         }
 
-        public bool SelectStrategy(StrategyBase strategy) {
+        public bool SelectStrategy(StrategyBase strategy) { //Whenever a strategy is selected from the list
             if (redStrategyOpen) {
                 redStrategy = strategy;
                 redStrategyTextBlock.Text = strategy.name;
@@ -169,6 +170,8 @@ namespace Strategen {
             status = "Loaded";
             this.className = className;
             author = strategy.author;
+
+            //Dynamically making WPF components is a massive pain
             fileview.RowDefinitions.Add(new RowDefinition());
             fileview.RowDefinitions.Add(new RowDefinition());
             fileview.ColumnDefinitions.Add(new ColumnDefinition());
@@ -184,7 +187,7 @@ namespace Strategen {
             removeButton = new Button() { Width = 40, HorizontalAlignment=HorizontalAlignment.Right };
             Grid.SetRow(removeButton, 1);
             Grid.SetColumn(removeButton, 1);
-            removeButton.Click += DeleteStrategy;
+            removeButton.Click += DeleteStrategy; //Attaching an interrupt
 
             fileview.Children.Add(nameTextBlock);
             fileview.Children.Add(authorTextBlock);
@@ -193,7 +196,7 @@ namespace Strategen {
         }
 
         private void DeleteStrategy(object sender, RoutedEventArgs e) {
-            try {
+            try { //Removes from the table and from the savedstrategyfile
                 List<string> newFile = new List<string>();
                 string[] savedStrategies = File.ReadAllLines(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), @"SavedStrategies.txt"));
                 foreach (string strategy in savedStrategies) {
@@ -211,7 +214,6 @@ namespace Strategen {
             } catch {
                 MessageBox.Show("Couldn't remove from saved files, likely because SavedStrategies.txt was unreachable");
             }
-
 
             strategySelector.FileScrollPanel.Children.Remove(fileview);
         }

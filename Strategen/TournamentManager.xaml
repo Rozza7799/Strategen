@@ -49,7 +49,7 @@
             <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*" />
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="3*"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -65,10 +65,10 @@
                         Margin="0,8,0,5">
 
                     </TextBlock>
-                    <Border Width="300" Height="2"
+                    <Border Width="200" Height="2"
                         Background="White" Margin="0, 0, 0, 10">
                     </Border>
-                    <Button x:Name="ImportBtn" Height="50" Width="300" VerticalAlignment="Bottom"
+                    <Button x:Name="ImportBtn" Height="50" Width="200" VerticalAlignment="Bottom"
                             BorderThickness="2" Margin="10" Click="ImportBtn_Click">
                         <Button.Background>
                             <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
@@ -81,7 +81,190 @@
                     </Button>
 
                 </StackPanel>
-                <TextBlock Margin="10" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Text="Rory Parker"></TextBlock>
+                <Grid x:Name="Bracket" Grid.Column="1" Grid.Row="2" Margin="30px">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1.25*"/>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Grid.Column="0" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF3358" Offset="0.0"/>
+                                <GradientStop Color="#FFB31717" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy1" Text="Strat1" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="2" Grid.Column="0" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF33DEFF" Offset="0.0"/>
+                                <GradientStop Color="#FF1753B3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy2" Text="Strat2" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="4" Grid.Column="0" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF3358" Offset="0.0"/>
+                                <GradientStop Color="#FFB31717" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy3" Text="Strat3" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="6" Grid.Column="0" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF33DEFF" Offset="0.0"/>
+                                <GradientStop Color="#FF1753B3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy4" Text="Strat4" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="0" Grid.Column="4" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF33DEFF" Offset="0.0"/>
+                                <GradientStop Color="#FF1753B3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy5" Text="Strat5" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="2" Grid.Column="4" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF3358" Offset="0.0"/>
+                                <GradientStop Color="#FFB31717" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy6" Text="Strat6" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="4" Grid.Column="4" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF33DEFF" Offset="0.0"/>
+                                <GradientStop Color="#FF1753B3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy7" Text="Strat7" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="6" Grid.Column="4" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF3358" Offset="0.0"/>
+                                <GradientStop Color="#FFB31717" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="Strategy8" Text="Strat8" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+                    
+                    
+                    
+                    
+                    
+                    
+
+                    <Border Grid.Row="1" Grid.Column="1" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF3358" Offset="0.0"/>
+                                <GradientStop Color="#FFB31717" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="SF1Red" Text="" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="1" Grid.Column="3" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF33DEFF" Offset="0.0"/>
+                                <GradientStop Color="#FF1753B3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="SF1Blue" Text="" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+                    
+
+                    <Border Grid.Row="5" Grid.Column="1" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF33DEFF" Offset="0.0"/>
+                                <GradientStop Color="#FF1753B3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="SF2Blue" Text="" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    
+                    
+                    <Border Grid.Row="5" Grid.Column="3" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF3358" Offset="0.0"/>
+                                <GradientStop Color="#FFB31717" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="SF2Red" Text="" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+                    
+                    
+                    
+                    
+                    
+
+                    <Border Grid.Row="2" Grid.Column="2" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF3358" Offset="0.0"/>
+                                <GradientStop Color="#FFB31717" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="FRed" Text="" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <Border Grid.Row="4" Grid.Column="2" Margin="10" BorderThickness="2">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="1, 1.5">
+                                <GradientStop Color="#FF33DEFF" Offset="0.0"/>
+                                <GradientStop Color="#FF1753B3" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <TextBlock x:Name="FBlue" Text="" VerticalAlignment="Center" FontSize="20" TextAlignment="Center"/>
+                    </Border>
+
+                    <TextBlock Text="╠" TextAlignment="Right" Grid.Row="1" Grid.Column="0" FontSize="60" Foreground="White"  VerticalAlignment="Center"/>
+                    <TextBlock Text="╠" TextAlignment="Right" Grid.Row="5" Grid.Column="0" FontSize="60" Foreground="White"  VerticalAlignment="Center"/>
+
+                    <TextBlock Text="╣" TextAlignment="Left" Grid.Row="1" Grid.Column="4" FontSize="60" Foreground="White"  VerticalAlignment="Center"/>
+                    <TextBlock Text="╣" TextAlignment="Left" Grid.Row="5" Grid.Column="4" FontSize="60" Foreground="White"  VerticalAlignment="Center"/>
+
+                    <TextBlock Text="══╦══" TextAlignment="Center" Grid.Row="1" Grid.Column="2" FontSize="60" Foreground="White"  VerticalAlignment="Center"/>
+                    <TextBlock Text="══╩══" TextAlignment="Center" Grid.Row="5" Grid.Column="2" FontSize="60" Foreground="White"  VerticalAlignment="Center"/>
+
+                </Grid>
+                    <TextBlock Margin="10" Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Text="Rory Parker"></TextBlock>
             </Grid>
         </Grid>
     </Border>

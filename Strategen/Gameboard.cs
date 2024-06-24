@@ -240,7 +240,7 @@ public class BoardInterface {
     }
 
     public bool DeployUnit(UnitType unitType, int x, int y) {
-        if (x < 0 || x > 15 || y < 0 || y > 15) {
+        if (x < 0 || x > 7 || y < 0 || y > 15) {
             return false; 
         } else {
             int newX = x;

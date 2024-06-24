@@ -54,14 +54,17 @@ namespace Strategen {
             InitializeComponent();
             this.withGUI = withGUI;
 
-            this.stratStarter= stratStarter;
+            this.stratStarter = stratStarter;
 
-            redStrategy = red;
-            blueStrategy = blue;
+            //Re-instancing it allows for two duplicate strategies to play against eachother
+            redStrategy = (StrategyBase) Activator.CreateInstance(red.GetType()); //This is fine because the strategy is already cast in the dynamic runtime compiler
+            blueStrategy = (StrategyBase) Activator.CreateInstance(blue.GetType());
 
-            if (withGUI) {
+            if (withGUI) { //If the user has slected to run the match with GUI using the checkbox
                 timer.Interval = new TimeSpan(0, 0, 0, 0, 300);
 
+                
+                //Loading images into memory - massive pain
                 emptyImage.BeginInit();
                 emptyImage.UriSource = new Uri("Images/Units/Empty.png", UriKind.Relative);
                 emptyImage.EndInit();
@@ -116,11 +119,9 @@ namespace Strategen {
                 Create(red, blue);
 
                 gameboard = new Gameboard(this, red, blue);
-                for (int i = 0; i < 199; i++) { Update(this, null);
-                    
-                }
-                timer.Tick += Update;
-                timer.Start();
+                for (int i = 0; i < 199; i++) { Update(this, null); } //Runs 199 turns really damn fast
+                timer.Tick += Update; 
+                timer.Start(); //Lets the gameboard schedule the last update then naturally end after
             }
         }
 
@@ -168,16 +169,24 @@ namespace Strategen {
                         damagePerTile[x].Add(0);
                     }
                 }
-                /*foreach (TileDamage damage in damages) { // An attempt to visualize the damage on the screen
+
+                //An attempt to visualize the damage on the screen
+                //Doesn't work due to the way that WPF draws images
+
+                /*foreach (TileDamage damage in damages) { 
                     damagePerTile[damage.x][damage.y] += damage.damage;
                     damageDisplays[damage.x][damage.y].Fill = new SolidColorBrush(Color.FromArgb(50, (byte) damagePerTile[damage.x][damage.y], 0, 0));
                 }
                 damageDisplays[1][1].Fill = new SolidColorBrush(Color.FromArgb(50, 254, 0, 0));
                 */
+
+
+
+                //This looks like garbage but its the fastest method of redrawing the images
                 for (int x = 0; x < 16; x++) {
                     for (int y = 0; y < 16; y++) {
                         if (units[x][y].GetUnitType() == UnitType.EMPTY) {
-                            if (images[x][y].Source != emptyImage) { //this check is done to save computing time as replacing an image takes more time than a comparison
+                            if (images[x][y].Source != emptyImage) { //this check is done to save computing time as redrawing an image takes more time than a comparison
                                 images[x][y].Source = emptyImage;
                             }
                         } else if (units[x][y].GetUnitType() == UnitType.BARRICADE) {
@@ -236,7 +245,7 @@ namespace Strategen {
             }
         }
 
-        public void Create(StrategyBase red, StrategyBase blue) {
+        public void Create(StrategyBase red, StrategyBase blue) { //An asynchronus constructor for the graphics so that I can instance the strategies in the other constructor
             RedStratName.Text = red.name;
             RedStratAuthor.Text = red.author;
             BlueStratName.Text = blue.name;
@@ -274,7 +283,7 @@ namespace Strategen {
                         Grid.SetRow(damageDisplays[x][y], x);
                         Grid.SetColumn(damageDisplays[x][y], y);
 
-                        damageDisplays[x][y].Fill = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0));
+                        damageDisplays[x][y].Fill = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
                         damageDisplays[x][y].Name = $"DAMAGE_{x}_{y}";
                         DamageCanvas.Children.Add(damageDisplays[x][y]);
                     }

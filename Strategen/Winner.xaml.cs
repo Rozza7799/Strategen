@@ -40,7 +40,6 @@ namespace Strategen {
             
             WinningStrategy.Text = winner ? redStrat.name : blueStrat.name;
             WinningAuthor.Text = "Congratulations " + (winner ? redStrat.author : blueStrat.author);
-
         }
         private void ReturnClick(object sender, RoutedEventArgs e) {
             match.stratStarter.matchIsDone(winner);
